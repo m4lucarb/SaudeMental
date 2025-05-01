@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App Saúde Mental</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7f4f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .app {
+      width: 375px;
+      height: 667px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      background: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .screen {
+      display: none;
+      flex: 1;
+      padding: 20px;
+    }
+    .screen.active {
+      display: block;
+    }
+    .btn {
+      display: block;
+      margin: 10px 0;
+      padding: 12px;
+      border: none;
+      background-color: #7cc6bd;
+      color: white;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    h2 {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="screen active" id="home">
+      <h2>Como você está se sentindo?</h2>
+      <button class="btn" onclick="selectMood('calmo')">Calmo</button>
+      <button class="btn" onclick="selectMood('ansioso')">Ansioso</button>
+      <button class="btn" onclick="selectMood('estressado')">Estressado</button>
+    </div>
+
+    <div class="screen" id="suggestions">
+      <h2>Sugestão para você</h2>
+      <div id="suggestionText"></div>
+      <button class="btn" onclick="nextScreen('exercise')">Fazer exercício</button>
+    </div>
+
+    <div class="screen" id="exercise">
+      <h2>Respiração Guiada</h2>
+      <p>Inspire... expire...</p>
+      <button class="btn" onclick="nextScreen('log')">Finalizar</button>
+    </div>
+
+    <div class="screen" id="log">
+      <h2>Atividade Registrada</h2>
+      <p>Obrigado por cuidar de você hoje 💙</p>
+      <button class="btn" onclick="nextScreen('home')">Voltar ao início</button>
+    </div>
+  </div>
+
+  <script>
+    let mood = '';
+
+    function selectMood(selectedMood) {
+      mood = selectedMood;
+      let suggestion = '';
+
+      if (mood === 'calmo') {
+        suggestion = 'Continue com sua paz interior. Que tal uma meditação curta?';
+      } else if (mood === 'ansioso') {
+        suggestion = 'Tente um exercício de respiração para aliviar a ansiedade.';
+      } else if (mood === 'estressado') {
+        suggestion = 'Uma pausa guiada pode ajudar a reduzir o estresse.';
+      }
+
+      document.getElementById('suggestionText').innerText = suggestion;
+      nextScreen('suggestions');
+    }
+
+    function nextScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+    }
+  </script>
+</body>
+</html>
